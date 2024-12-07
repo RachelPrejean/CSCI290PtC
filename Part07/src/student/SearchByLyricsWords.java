@@ -32,7 +32,7 @@ public class SearchByLyricsWords {
     //treeMap uses Strings as keys to map to a TreeSet.
     private TreeMap<String, TreeSet<Song>> treeMapLyrics = new TreeMap<>();
 
-    //***************************************************************************
+    //******************************************************************************
 
     /**
      * constructor initializes the property and makes a set of common words
@@ -71,8 +71,17 @@ public class SearchByLyricsWords {
     public void fillTreeMapLyrics(Song[] songs){
         for(int i = 0; i < songs.length; i++){
             //array of all words in the lyrics
-            String[] words = songs[i].getLyrics().split("[^a-zA-z]+");
+            String[] allWords = songs[i].getLyrics().split("[^a-zA-z]+");
+            Set<String> goodWords = new HashSet<>();
 
+            //check every word to see if it is in common words or it has already been added
+            for(String word : allWords){
+                    word = word.toLowerCase();
+                    if(!commonWordSet.contains(word) && !goodWords.contains(word) && word.length() > 1){
+                        goodWords.add(word);
+                    }
+
+            }
         }
         
     } //end fillTreeMapLyrics
