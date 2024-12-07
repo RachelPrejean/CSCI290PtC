@@ -1,6 +1,12 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
+/**
+ * File: SearchByLyricsWords.java 
+ *****************************************************************************
+ *                       Revision History
+ *****************************************************************************
+ * 
+ * 12/2024 Rachel Prejean - Created 
+ *****************************************************************************
+
  */
 package student;
 
@@ -13,10 +19,20 @@ import java.io.*;
  * @author preje
  */
 public class SearchByLyricsWords {
+    
+    //CLASS LEVEL VARIABLES
+    //******************************************************************************
+
     // keep a local direct reference to the song array
     private Song[] songs;
 
+    //set of common words using commonWords.txt
     private Set<String> commonWordSet = new HashSet<>();
+
+    //treeMap uses Strings as keys to map to a TreeSet.
+    private TreeMap<String, TreeSet<Song>> treeMapLyrics = new TreeMap<>();
+
+    //***************************************************************************
 
     /**
      * constructor initializes the property and makes a set of common words
@@ -41,9 +57,25 @@ public class SearchByLyricsWords {
             e.printStackTrace();
         
         }
+
+        //Call fillTreeMapLyrics to handle the filling of the treeMap
+        fillTreeMapLyrics(songs);
+
     } //end constructor
 
+    /**
+     * fillTreeMapLyrics
+     * Fills the treeMap of lyrics using the song[]
+     * @param Song[] songs
+     */
+    public void fillTreeMapLyrics(Song[] songs){
+        for(int i = 0; i < songs.length; i++){
+            //array of all words in the lyrics
+            String[] words = songs[i].getLyrics().split("[^a-zA-z]+");
 
+        }
+        
+    } //end fillTreeMapLyrics
 
 
     /**
