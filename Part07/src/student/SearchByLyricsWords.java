@@ -19,7 +19,6 @@ import java.io.*;
  * @author preje
  */
 public class SearchByLyricsWords {
-    
     //CLASS LEVEL VARIABLES
     //******************************************************************************
 
@@ -71,25 +70,47 @@ public class SearchByLyricsWords {
     public void fillTreeMapLyrics(Song[] songs){
         for(int i = 0; i < songs.length; i++){
             //array of all words in the lyrics
-            String[] allWords = songs[i].getLyrics().split("[^a-zA-z]+");
+            String[] allWords = songs[i].getLyrics().split("[^\\p{L}]+");
             Set<String> goodWords = new HashSet<>();
 
             //check every word to see if it is in common words or it has already been added
             for(String word : allWords){
                     word = word.toLowerCase();
+
                     if(!commonWordSet.contains(word) && !goodWords.contains(word) && word.length() > 1){
                         goodWords.add(word);
                     }
 
             }
-        }
-        
+
+            //use goodWords as the keys to the song. 
+            for(String word : goodWords){
+                //if the word isnt already a key create a new key and TreeSet associaded with it
+                treeMapLyrics.putIfAbsent(word, new TreeSet<Song>()); 
+
+                //add Song to TreeSet
+                treeMapLyrics.get(word).add(songs[i]);
+            }
+            
+        } //end songs[] loop 
+
     } //end fillTreeMapLyrics
+
+    /**
+     * Statistics
+     * Prints the number of keys in treeMapLyrics, print ALL song references in the map
+     * Do some other math
+     */
+    private void statistics(){
+        System.out.println("Number of keys in treeMapLyrics");
+        System.out.println("Should be: 31385");
+        System.out.println("Actual: " + treeMapLyrics.size());
+
+    } //end statistics
 
 
     /**
      * Unit test for SearchByLysicsWords
-     * (just basic)
      */
     public static void main(String[] args){
         if (args.length == 0) {
@@ -99,6 +120,8 @@ public class SearchByLyricsWords {
         
         SongCollection sc = new SongCollection(args[0]);
         SearchByLyricsWords sblw = new SearchByLyricsWords(sc);
+
+        sblw.statistics();
 
     } //end unit test
     
