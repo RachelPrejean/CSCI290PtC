@@ -118,8 +118,19 @@ public class SearchByLyricsWords {
 
         //temp arraylist for adding seached songs to
         ArrayList<Song> foundSongs = new ArrayList<>();
-
+        Set<Song> retainedSongs = new HashSet();
         
+
+        //add the coresponding treeset for each goodWord to foundSongs
+        for(String key : goodWords){
+            retainedSongs.retainAll(treeMapLyrics.get(key));
+        }
+
+        //TODO: test test
+        for(Song song : retainedSongs){
+            System.out.println(song.getArtist());
+
+        }
 
 
         Song[] arraySongs = foundSongs.toArray(new Song[0]);
@@ -168,6 +179,7 @@ public class SearchByLyricsWords {
         SearchByLyricsWords sblw = new SearchByLyricsWords(sc);
 
         //sblw.statistics();
+        sblw.search("We don't need no education");
 
     } //end unit test
     

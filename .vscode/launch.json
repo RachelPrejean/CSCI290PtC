@@ -8,8 +8,7 @@
             "type": "java",
             "name": "Current File",
             "request": "launch",
-            "mainClass": "${file}",
-            "args": ["allSongs.txt"]
+            "mainClass": "${file}"
         },
         {
             "type": "java",
@@ -31,7 +30,7 @@
             "request": "launch",
             "mainClass": "student.SearchByLyricsWords",
             "projectName": "CSCI290PtC_14aaaf90",
-            "args": ["allSongs.txt"]
+            "args": "allSongs.txt"
         },
         {
             "type": "java",
