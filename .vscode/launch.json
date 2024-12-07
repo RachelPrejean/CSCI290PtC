@@ -1,0 +1,58 @@
+{
+    // Use IntelliSense to learn about possible attributes.
+    // Hover to view descriptions of existing attributes.
+    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "type": "java",
+            "name": "Current File",
+            "request": "launch",
+            "mainClass": "${file}",
+            "args": ["allSongs.txt"]
+        },
+        {
+            "type": "java",
+            "name": "RALtester3",
+            "request": "launch",
+            "mainClass": "student.RALtester3",
+            "projectName": "CSCI290PtC_14aaaf90"
+        },
+        {
+            "type": "java",
+            "name": "SearchByArtistPrefix",
+            "request": "launch",
+            "mainClass": "student.SearchByArtistPrefix",
+            "projectName": "CSCI290PtC_14aaaf90"
+        },
+        {
+            "type": "java",
+            "name": "SearchByLyricsWords",
+            "request": "launch",
+            "mainClass": "student.SearchByLyricsWords",
+            "projectName": "CSCI290PtC_14aaaf90",
+            "args": ["allSongs.txt"]
+        },
+        {
+            "type": "java",
+            "name": "SearchByTitlePrefix",
+            "request": "launch",
+            "mainClass": "student.SearchByTitlePrefix",
+            "projectName": "CSCI290PtC_14aaaf90"
+        },
+        {
+            "type": "java",
+            "name": "Song",
+            "request": "launch",
+            "mainClass": "student.Song",
+            "projectName": "CSCI290PtC_14aaaf90"
+        },
+        {
+            "type": "java",
+            "name": "SongCollection",
+            "request": "launch",
+            "mainClass": "student.SongCollection",
+            "projectName": "CSCI290PtC_14aaaf90"
+        }
+    ]
+}

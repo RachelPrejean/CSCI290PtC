@@ -19,11 +19,11 @@ public class SearchByLyricsWords {
     private Set<String> commonWordSet = new HashSet<>();
 
     /**
-     * constructor initializes the property. [Done]
+     * constructor initializes the property and makes a set of common words
      * @param sc a SongCollection object
      */
-    public SearchByLyricsWords() {
-        //songs = sc.getAllSongs();
+    public SearchByLyricsWords(SongCollection sc) {
+        songs = sc.getAllSongs();
 
         try {
             //create a scanner to read commonWords.txt
@@ -41,23 +41,24 @@ public class SearchByLyricsWords {
             e.printStackTrace();
         
         }
+    } //end constructor
 
-        //test test test
-        for(String word : commonWordSet){
-            System.out.println("new word: "+ word + "|");
-        }
 
-        
-        
-    }
+
 
     /**
      * Unit test for SearchByLysicsWords
      * (just basic)
      */
     public static void main(String[] args){
-        SearchByLyricsWords Sblw = new SearchByLyricsWords();
+        if (args.length == 0) {
+            System.err.println("usage: prog songfile [search string]");
+            return;
+        }
+        
+        SongCollection sc = new SongCollection(args[0]);
+        SearchByLyricsWords sblw = new SearchByLyricsWords(sc);
 
-    }
+    } //end unit test
     
-}
+} //end SearchByLyricsWords class
