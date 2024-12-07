@@ -4,10 +4,60 @@
  */
 package student;
 
+import java.util.*;
+import java.io.*;
+
+
 /**
  *
  * @author preje
  */
 public class SearchByLyricsWords {
+    // keep a local direct reference to the song array
+    private Song[] songs;
+
+    private Set<String> commonWordSet = new HashSet<>();
+
+    /**
+     * constructor initializes the property. [Done]
+     * @param sc a SongCollection object
+     */
+    public SearchByLyricsWords() {
+        //songs = sc.getAllSongs();
+
+        try {
+            //create a scanner to read commonWords.txt
+            FileInputStream commonWordFile = new FileInputStream("Part07//commonWords.txt");
+            Scanner fileScanner = new Scanner(commonWordFile);
+
+            //add words to commonWordSet
+            while(fileScanner.hasNext()){
+                commonWordSet.add(fileScanner.next());
+            }
+
+            fileScanner.close();
+
+        } catch (FileNotFoundException e){
+            e.printStackTrace();
+        
+        }
+
+        //test test test
+        for(String word : commonWordSet){
+            System.out.println("new word: "+ word + "|");
+        }
+
+        
+        
+    }
+
+    /**
+     * Unit test for SearchByLysicsWords
+     * (just basic)
+     */
+    public static void main(String[] args){
+        SearchByLyricsWords Sblw = new SearchByLyricsWords();
+
+    }
     
 }
