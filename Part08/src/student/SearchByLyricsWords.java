@@ -97,6 +97,38 @@ public class SearchByLyricsWords {
     } //end fillTreeMapLyrics
 
     /**
+     * search
+     * Searches for the search words in the tree map
+     * @param String searchWords
+     * @return Song[]
+     */
+    public Song[] search(String searchWords){
+        //Convert the String searchWords into a set containing the good words
+        String[] allWords = searchWords.split("[^\\p{L}]+");
+        Set<String> goodWords = new HashSet<>();
+
+        //check every word to see if it is in common words or it has already been added
+        for(String word : allWords){
+                word = word.toLowerCase();
+
+                if(!commonWordSet.contains(word) && !goodWords.contains(word) && word.length() > 1){
+                    goodWords.add(word);
+                }
+        }
+
+        //temp arraylist for adding seached songs to
+        ArrayList<Song> foundSongs = new ArrayList<>();
+
+        
+
+
+        Song[] arraySongs = foundSongs.toArray(new Song[0]);
+        return arraySongs;
+
+    } //end search
+
+
+    /**
      * Statistics
      * Prints the number of keys in treeMapLyrics, print ALL song references in the map
      * Do some other math
@@ -123,7 +155,6 @@ public class SearchByLyricsWords {
 
     } //end statistics
 
-
     /**
      * Unit test for SearchByLysicsWords
      */
@@ -136,7 +167,7 @@ public class SearchByLyricsWords {
         SongCollection sc = new SongCollection(args[0]);
         SearchByLyricsWords sblw = new SearchByLyricsWords(sc);
 
-        sblw.statistics();
+        //sblw.statistics();
 
     } //end unit test
     
