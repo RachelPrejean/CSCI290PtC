@@ -105,6 +105,21 @@ public class SearchByLyricsWords {
         System.out.println("Number of keys in treeMapLyrics");
         System.out.println("Should be: 31385");
         System.out.println("Actual: " + treeMapLyrics.size());
+        
+        System.out.println("\nTotal number of song references");
+        int total = 0;
+        for(String key : treeMapLyrics.keySet()){
+            total += treeMapLyrics.get(key).size();
+        }
+        System.out.println("Should be: Big Number");
+        System.out.println("Actual: " + total);
+        
+        //not sure on these numbers
+        System.out.println("\nCalculations");
+        System.out.println("(made up numbers: bits per letter = 16)");
+        System.out.println("Space for keys: " + (treeMapLyrics.size() * 144 + " bits"));
+        System.out.println("Space for sets: " + (treeMapLyrics.size() * 20 * 64 + " bits"));
+
 
     } //end statistics
 

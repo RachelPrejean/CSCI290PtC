@@ -1,0 +1,21 @@
+Part07WriteUp.txt
+
+Rachel Prejean, Lucia Whittaker
+
+Output of SearchByLyricsWords
+    Number of keys in treeMapLyrics
+    Should be: 31385
+    Actual: 31385
+
+    Total number of song references
+    Should be: Big Number
+    Actual: 637601
+
+    Calculations
+    (made up numbers: bits per letter = 16)
+    Space for keys: 4519440 bits
+    Space for sets: 40172800 bits
+
+Bugs
+    No bugs to be found
+        If things break it should call a handmade error
