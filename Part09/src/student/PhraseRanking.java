@@ -31,12 +31,12 @@ public class PhraseRanking {
      * @return int
      */
     public static int rankPhrase(String lyrics, String lyricsPhrase){
-        Pattern phrasePattern = Pattern.compile("[a-zA-z_0-9]+", pattern.CASE_INSENSITIVE);
+        Pattern phrasePattern = Pattern.compile("[a-zA-z_0-9]+", Pattern.CASE_INSENSITIVE);
         Matcher phraseMatcher = phrasePattern.matcher(lyricsPhrase);
         List<String> phraseWords = new ArrayList<>();
         
         while (phraseMatcher.find()){
-          phraseWords.add(matcher.group());
+          phraseWords.add(phraseMatcher.group());
         }
         
         List<List<Integer>> matchers = new ArrayList<>();
@@ -71,12 +71,10 @@ public class PhraseRanking {
         // if the distance between the best first and the best last is greater than zero
           // best substring becomes the substring of the lyrics between best first and best last replacing all newlines with "nn"
           // return the best substring length
-        // return zero
-          }
         }
+        }
+        return 0;
         
     } //end rankPhrase
    
-
-
 } //end PhraseRanking class
