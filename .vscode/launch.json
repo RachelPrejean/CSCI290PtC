@@ -6,6 +6,17 @@
     "configurations": [
         {
             "type": "java",
+            "name": "PhraseRanking",
+            "request": "launch",
+            "mainClass": "student.PhraseRanking",
+            "projectName": "CSCI290PtC_14aaaf90",
+            "args": [
+                "allSongs.txt",
+                "she loves you"
+            ]
+        },
+        {
+            "type": "java",
             "name": "Current File",
             "request": "launch",
             "mainClass": "${file}"
@@ -30,7 +41,10 @@
             "request": "launch",
             "mainClass": "student.SearchByLyricsWords",
             "projectName": "CSCI290PtC_14aaaf90",
-            "args": ["allSongs.txt","notaword"]
+            "args": [
+                "allSongs.txt",
+                "notaword"
+            ]
         },
         {
             "type": "java",

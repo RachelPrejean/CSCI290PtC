@@ -31,28 +31,52 @@ public class PhraseRanking {
      * @return int
      */
     public static int rankPhrase(String lyrics, String lyricsPhrase){
+        //a bunch of complicated stuff that is taking the inputed lyrics to search
+        //and taking out the not useable parts of it.
         Pattern phrasePattern = Pattern.compile("[a-zA-z_0-9]+", Pattern.CASE_INSENSITIVE);
         Matcher phraseMatcher = phrasePattern.matcher(lyricsPhrase);
         List<String> phraseWords = new ArrayList<>();
         
+        //while the matcher finds a word add the word to the list of words
         while (phraseMatcher.find()){
           phraseWords.add(phraseMatcher.group());
         }
         
+        //list of integrer list
         List<List<Integer>> matchers = new ArrayList<>();
         
-        // for each word in the lyricPhrase create Integer Arraylist to store the index for each occurence of the word
-          // modify the regular expression to be the particular word in the lyricPhrase (create a new regex string with "\\b" + phraseWords.get(i) + "\\b")
-          // use the new regex to create a new pattern and matcher
-          // while the new matcher.find() returns true
-            // if this is the last word of the phrase add the index of the end of the word
-            // otherwise we add the index of the start of the word
-          // add all values found for the word occurences to the array list
-        // The smallest current distance between the first and the last word
+        //for every word make a list to hold the indexes of the spots it is found 
+        //and add it to the master list
+        for(String word : phraseWords){
+            List<Integer> indexes = new ArrayList<>();
+            
+            //change the regex to only find the word we are looking for
+            String regex = "\\b" + word + "\\b";
+            Pattern wordPattern = Pattern.compile(regex, Pattern.CASE_INSENSITIVE);
+            Matcher wordMatcher = wordPattern.matcher(lyrics);
+            
+            //while the matcher finds the word in the lyrics add the index of the start of the word
+            //or if it is the last word in the lyrics add the last index
+            while(wordMatcher.find()){
+                if(wordMatcher.end() == (lyrics.length() - 1)){
+                    indexes.add(wordMatcher.end());
+                } else {
+                    indexes.add(wordMatcher.start());
+                }
+                //TODO: test test
+                System.out.println(wordMatcher.start());
+            }
+            
+            //add list to list of lists
+            matchers.add(indexes);
+        } //end finding matches
+        
+        //values to find distances between key values
         Integer smallestCurrentDistance = Integer.MAX_VALUE;
         Integer bestFirst = -1;
         Integer bestLast = -1;
         
+
         for (Integer indexOfFirst : matchers.get(0)) {
           for (Integer indexOfLast : matchers.get(matchers.size() - 1)) {
             //here we check to see if the phrase is occuring in the correct order
@@ -71,10 +95,30 @@ public class PhraseRanking {
         // if the distance between the best first and the best last is greater than zero
           // best substring becomes the substring of the lyrics between best first and best last replacing all newlines with "nn"
           // return the best substring length
-        }
+            }
         }
         return 0;
         
     } //end rankPhrase
+
+    /**
+     * Unit test for PhraseRanking
+     */
+    public static void main(String[] args){
+        if (args.length < 1) {
+            System.err.println("usage: prog songfile");
+            return;
+        } else if(args.length < 2){
+            System.err.println("usage: No lyrics to search for");
+            return;
+        }
+        
+        SongCollection sc = new SongCollection(args[0]);
+        Song[] songs = sc.getAllSongs();
+
+
+        PhraseRanking.rankPhrase(songs[0].getLyrics(), args[1]);
+
+    } //end unit test
    
 } //end PhraseRanking class
