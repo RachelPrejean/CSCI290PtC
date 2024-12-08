@@ -6,7 +6,6 @@
  * 
  * 12/2024 Rachel Prejean - Created 
  *****************************************************************************
-
  */
 package student;
 
@@ -15,8 +14,9 @@ import java.io.*;
 
 
 /**
- *
- * @author preje
+ * SearchByLyricsWords
+ * Searches a map of treeSets for the songs that match the given lyrics
+ * @author Rachel Prejean
  */
 public class SearchByLyricsWords {
     //CLASS LEVEL VARIABLES
