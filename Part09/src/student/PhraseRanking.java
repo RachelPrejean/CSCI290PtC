@@ -58,13 +58,11 @@ public class PhraseRanking {
             //while the matcher finds the word in the lyrics add the index of the start of the word
             //or if it is the last word in the lyrics add the last index
             while(wordMatcher.find()){
-                if(wordMatcher.end() == (lyrics.length() - 1)){
-                    indexes.add(wordMatcher.end());
+                if(wordMatcher.end() == (lyrics.length())){
+                    indexes.add(wordMatcher.end() - 1);
                 } else {
                     indexes.add(wordMatcher.start());
                 }
-                //TODO: test test
-                System.out.println(wordMatcher.start());
             }
             
             //add list to list of lists
@@ -76,9 +74,19 @@ public class PhraseRanking {
         Integer bestFirst = -1;
         Integer bestLast = -1;
         
-
+        
         for (Integer indexOfFirst : matchers.get(0)) {
-          for (Integer indexOfLast : matchers.get(matchers.size() - 1)) {
+            for (Integer indexOfLast : matchers.get(matchers.size() - 1)) {
+                //if the two indexes are in the right order and the distance between them
+                //is smaller then the last best distance between them.
+                if(indexOfFirst < indexOfLast && (indexOfLast - indexOfFirst) < smallestCurrentDistance){
+                    //update values to best match(only get here if this match is better then the last one)
+                    smallestCurrentDistance = (indexOfLast - indexOfFirst);
+                    bestFirst = indexOfFirst;
+                    bestLast = indexOfLast;
+                    //TODO: test test
+                    System.out.println(smallestCurrentDistance);
+            }
             //here we check to see if the phrase is occuring in the correct order
             //first making sure that the index of the last word is greater than the index of the first word
             // and it must also be shorter than the current shortest distance in order to proceed
