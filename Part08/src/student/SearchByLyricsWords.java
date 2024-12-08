@@ -117,7 +117,7 @@ public class SearchByLyricsWords {
         }
 
         //temp set for adding seached songs to
-        Set<Song> retainedSongs = new HashSet();
+        Set<Song> retainedSongs = new HashSet<>();
 
         //make goodWords an array
         String[] goodWordsArray = goodWords.toArray(new String[0]);
