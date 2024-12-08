@@ -116,24 +116,40 @@ public class SearchByLyricsWords {
                 }
         }
 
-        //temp arraylist for adding seached songs to
-        ArrayList<Song> foundSongs = new ArrayList<>();
+        //temp set for adding seached songs to
         Set<Song> retainedSongs = new HashSet();
-        
+
+        //make goodWords an array
+        String[] goodWordsArray = goodWords.toArray(new String[0]);
+
+        try{
+            //now put all songs in the the first good word key set into retainedSongs
+            //This is to start retained songs with something
+            for(Song song : treeMapLyrics.get(goodWordsArray[0])){
+                retainedSongs.add(song);
+            }
+
+        } catch(NullPointerException e){
+            System.err.println("Error: The key " + goodWordsArray[0] + " does not exist in treeMapLyrics.");
+        }
 
         //add the coresponding treeset for each goodWord to foundSongs
-        for(String key : goodWords){
-            retainedSongs.retainAll(treeMapLyrics.get(key));
+        for(int i = 1; i < goodWordsArray.length; i++){
+            //fill tempSet with next keys songs
+            Set<Song> tempSet = new HashSet<>();
+            for(Song song : treeMapLyrics.get(goodWordsArray[i])){
+                tempSet.add(song);
+            }
+            
+            //do the retainAll to only keep the things that are the same
+            retainedSongs.retainAll(tempSet);        
         }
 
-        //TODO: test test
-        for(Song song : retainedSongs){
-            System.out.println(song.getArtist());
-
-        }
-
-
-        Song[] arraySongs = foundSongs.toArray(new Song[0]);
+        //convert to Array to match needed Song[] return
+        Song[] arraySongs = retainedSongs.toArray(new Song[0]);
+        
+        //TODO: sorted array. Dont know if needed for future
+        Arrays.sort(arraySongs);
         return arraySongs;
 
     } //end search
@@ -170,8 +186,11 @@ public class SearchByLyricsWords {
      * Unit test for SearchByLysicsWords
      */
     public static void main(String[] args){
-        if (args.length == 0) {
-            System.err.println("usage: prog songfile [search string]");
+        if (args.length < 1) {
+            System.err.println("usage: prog songfile");
+            return;
+        } else if(args.length < 2){
+            System.err.println("usage: No song to search");
             return;
         }
         
@@ -179,7 +198,14 @@ public class SearchByLyricsWords {
         SearchByLyricsWords sblw = new SearchByLyricsWords(sc);
 
         //sblw.statistics();
-        sblw.search("We don't need no education");
+        Song[] songArray = sblw.search(args[1]);
+
+        //Print the first ten results and the total result
+        for(int i = 0; i < songArray.length && i < 10; i++){
+            System.out.println(songArray[i]);
+        }
+        System.out.println("Total Songs Found: " + songArray.length);
+
 
     } //end unit test
     

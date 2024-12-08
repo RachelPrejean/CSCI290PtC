@@ -1,0 +1,52 @@
+Part08WriteUp.txt
+
+Rachel Prejean, Lucia Whittaker
+
+Output of SearchByLyricsWords
+    "We don’t need no education"
+        Pink Floyd, "Another Brick In The Wall (Part II)"
+        Prince, "Dance On"
+        Prince, "I Rock Therefore I Am"
+        Prince, "The Sacrifice Of Victor"
+        Total Songs Found: 4
+
+    "she loves my car"
+        Bob Dylan, "Talkin' World War III Blues"
+        Crosby Stills Nash & Young, "Faith In Me"
+        Elton John, "Religion"
+        Scorpions, "Here Comes My Baby"
+        Total Songs Found: 4
+
+    "blue jeans"
+        Allman Brothers Band, "The Heat Is On"
+        Beatles, The, "Don't Ever Change"
+        Bob Dylan, "House Of The Rising Sun"
+        Bruce Springsteen, "Cadillac Ranch"
+        Bruce Springsteen, "Ramrod"
+        Cat Stevens, "Oh Very Young"
+        Clash, The, "If Music Could Talk"
+        David Bowie, "Lady Stardust"
+        David Bowie, "Tumble And Twirl"
+        Elton John, "Crocodile Rock"
+        Total Songs Found: 19
+
+    "little"
+        Aerosmith, "Adam's Apple"
+        Aerosmith, "Animal Crackers"
+        Aerosmith, "Big Ten Inch Record"
+        Aerosmith, "Bitch's Brew"
+        Aerosmith, "Black Cherry"
+        Aerosmith, "Blind Man"
+        Aerosmith, "Can't Stop Messin'"
+        Aerosmith, "Chip Away At The Stone"
+        Aerosmith, "Crash"
+        Aerosmith, "Deuces Are Wild"
+        Total Songs Found: 1675
+
+    "notaword"
+        Error: The key notaword does not exist in treeMapLyrics.
+        Total Songs Found: 0
+
+Bugs
+    No bugs to be found
+        If things break it should call a handmade error
