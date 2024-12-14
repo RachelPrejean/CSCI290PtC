@@ -9,6 +9,9 @@
  */
 package student;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Matcher;
@@ -24,25 +27,32 @@ public class PhraseRanking {
     /**
      * rankPhrase
      * This takes in 2 strings, the lyrics and the lyrics phrase being looked
-     * for. It returns the ranking of the lyrics with respect to a search for
-     * lyricsPhrase.
+     * for. Returns The rank of the phrase (length of the shortest substring containing
+     * all words in the correct order), or -1 if the phrase is not found or
+     * if either input is empty.
      * @param String lyrics
      * @param String lyricsPhrase
-     * @return int
+     * @return int 
      */
     public static int rankPhrase(String lyrics, String lyricsPhrase){
-        //a bunch of complicated stuff that is taking the inputed lyrics to search
-        //and taking out the not useable parts of it.
+
+        // handle empty lyrics or phrase
+        if (lyrics == null || lyrics.isEmpty() || lyricsPhrase == null || lyricsPhrase.isEmpty()) {
+            return -1; // Handle empty lyrics or phrase
+        }
+
+        // Create a regular expression pattern to match words (alphanumeric characters and underscores) which is case-insensitive.
         Pattern phrasePattern = Pattern.compile("[a-zA-z_0-9]+", Pattern.CASE_INSENSITIVE);
         Matcher phraseMatcher = phrasePattern.matcher(lyricsPhrase);
+        // Create an ArrayList to store the individual words found in the lyricsPhrase.
         List<String> phraseWords = new ArrayList<>();
-        
-        //while the matcher finds a word add the word to the list of words
-        while (phraseMatcher.find()){
-          phraseWords.add(phraseMatcher.group());
+
+        // Iterate through the lyricsPhrase, finding each word that matches the pattern.
+        while (phraseMatcher.find()){ 
+          phraseWords.add(phraseMatcher.group()); 
         }
         
-        //list of integrer list
+        // Create a list to hold lists of integers, where each inner list will store the indices of a word's occurrences.
         List<List<Integer>> matchers = new ArrayList<>();
         
         //for every word make a list to hold the indexes of the spots it is found 
@@ -50,64 +60,63 @@ public class PhraseRanking {
         for(String word : phraseWords){
             List<Integer> indexes = new ArrayList<>();
             
-            //change the regex to only find the word we are looking for
+            //change the regex to the current word as a whole word (surrounded by word boundaries)
             String regex = "\\b" + word + "\\b";
             Pattern wordPattern = Pattern.compile(regex, Pattern.CASE_INSENSITIVE);
+            // Create a matcher to find matches of the word pattern in the lyrics string.
             Matcher wordMatcher = wordPattern.matcher(lyrics);
             
-            //while the matcher finds the word in the lyrics add the index of the start of the word
-            //or if it is the last word in the lyrics add the last index
-            while(wordMatcher.find()){
-                if(wordMatcher.end() == (lyrics.length())){
-                    indexes.add(wordMatcher.end() - 1);
-                } else {
-                    indexes.add(wordMatcher.start());
-                }
+            // Find all occurrences of the current word within the song lyrics.
+            while (wordMatcher.find()) {
+                indexes.add(wordMatcher.start());
             }
-            
-            //add list to list of lists
             matchers.add(indexes);
         } //end finding matches
         
-        //values to find distances between key values
-        Integer smallestCurrentDistance = Integer.MAX_VALUE;
-        Integer bestFirst = -1;
-        Integer bestLast = -1;
-        
-        
-        for (Integer indexOfFirst : matchers.get(0)) {
-            for (Integer indexOfLast : matchers.get(matchers.size() - 1)) {
-                //if the two indexes are in the right order and the distance between them
-                //is smaller then the last best distance between them.
-                if(indexOfFirst < indexOfLast && (indexOfLast - indexOfFirst) < smallestCurrentDistance){
-                    //update values to best match(only get here if this match is better then the last one)
-                    smallestCurrentDistance = (indexOfLast - indexOfFirst);
-                    bestFirst = indexOfFirst;
-                    bestLast = indexOfLast;
-                    //TODO: test test
-                    System.out.println(smallestCurrentDistance);
-            }
-            //here we check to see if the phrase is occuring in the correct order
-            //first making sure that the index of the last word is greater than the index of the first word
-            // and it must also be shorter than the current shortest distance in order to proceed
-              // set a left and right index and a boolean value to True
-              // here we will iterate through the lyrics searching to see if a match is located inbetween the previously defined matches
-                // set the condition that a match word exists inbetween to false
-                // for each index of current in matchers
-                  // if we meet (indexOfCurrent > leftReference && indexOfCurrent < rightReference) we know that the there is a match word inbetween the previously defined match words
-                    // we then set the index value of the new match word as the leftRefferenc in order to continue the searching.
-                    //set the condition that a match word exist inbetween to true and break (yes, you can use it here)
-                // if the word does not exist between the left and right references match found should be false and we break
-              // if a match is found
-                // set the best first index, best last index and the smallest distance the distance between the two
-        // if the distance between the best first and the best last is greater than zero
-          // best substring becomes the substring of the lyrics between best first and best last replacing all newlines with "nn"
-          // return the best substring length
-            }
+        if (matchers.isEmpty() || matchers.get(0).isEmpty()) {
+            return -1;
         }
-        return 0;
+
+        // Initialize a variable to store the smallest distance found so far.
+        Integer smallestCurrentDistance = Integer.MAX_VALUE;
+
+        // Iterate through the list of indices for the first word (serves as starting points).
+        for (int i = 0; i < matchers.get(0).size(); i++){
+            int leftWindow = matchers.get(i).get(0); // Set the left boundary of the window to the current index of the first word.
+            int rightWindow = leftWindow; // initialize the right boundary of the window temporarily to the left boundary.
+            Boolean validWindow = true; // Initialize a boolean to track if the current window is valid AKA contains all words in the correct order.
+
+            // Iterate through the remaining words in the phrase. using the index of the first word as the starting point.
+            for (int j = 1; j < matchers.get(i).size(); j++){ 
+                Boolean matchFound = false; // Initialize a boolean to track if a match is found within the current window
+
+                // Iterate looking for the next word in the phrase that is within the current window.
+                for (int indexOfCurrent : matchers.get(i)){ 
+                    // If the index of the current word is within the current window.
+                    if (indexOfCurrent >= rightWindow){
+                        rightWindow = indexOfCurrent + phraseWords.get(j).length()-1; // Set the right boundary of the window to the end of the current word.
+                        matchFound = true; // flag that a match was found.
+                        break; // break out of the loop and move to the next word in the phrase.
+                    }
+                }
+                if (!matchFound){ // if the next word in the phrase is not found within the current window.
+                    validWindow = false; // flag that the current window does not contain all words in the correct order.
+                    break; // break out of the loop and move to the next starting point.
+                }
+            }
+            if (!validWindow){ // If the current window does not contain all words in the correct order.
+                smallestCurrentDistance = Math.min(smallestCurrentDistance, rightWindow - leftWindow + 1); // store the smallest distance found so far.
+            }
+            // Calculate the distance between the left and right boundaries of the current window.
+        }
+        if (smallestCurrentDistance == Integer.MAX_VALUE) { // If no match was ever found.
+            return -1;
+        }
+        return smallestCurrentDistance; // if a match was found, return the smallest distance found.
+
+        }
         
-    } //end rankPhrase
+    //end rankPhrase
 
     /**
      * Unit test for PhraseRanking
@@ -120,13 +129,27 @@ public class PhraseRanking {
             System.err.println("usage: No lyrics to search for");
             return;
         }
-        
+
+            // Read the song file and build the SongCollection
         SongCollection sc = new SongCollection(args[0]);
         Song[] songs = sc.getAllSongs();
 
+        if (songs.length == 0) {
+            System.err.println("No songs found in the file.");
+            return;
+        }
 
-        PhraseRanking.rankPhrase(songs[0].getLyrics(), args[1]);
+    // Get the lyrics of the first song
+        String lyrics = songs[0].getLyrics();
+        String lyricsPhrase = args[1];
 
+        // Rank the phrase in the lyrics
+        int rank = PhraseRanking.rankPhrase(lyrics, lyricsPhrase);
+        if (rank == -1) {
+            System.out.println("Phrase not found in the lyrics.");
+        } else {
+            System.out.println("The rank of the phrase is: " + rank);
+        }
     } //end unit test
    
 } //end PhraseRanking class
