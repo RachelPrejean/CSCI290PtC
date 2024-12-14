@@ -4,6 +4,5 @@
 /Part08/nbproject/private/
 .vscode/launch.json
 .vscode/settings.json
-Part09/.DS_Store
 .gitignore
-Part09/.DS_Store
+*/.DS_Store
